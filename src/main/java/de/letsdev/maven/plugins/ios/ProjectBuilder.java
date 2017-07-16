@@ -40,7 +40,7 @@ public class ProjectBuilder {
         File workDirectory = Utils.getWorkDirectory(properties, mavenProject, projectName);
         File projectDirectory = new File(workDirectory.toString() + File.separator + getSchemeOrTarget(properties));
 
-
+        String teamId = Utils.getTeamId(workDirectory, properties.get(Utils.PLUGIN_PROPERTIES.PROVISIONING_PROFILE_UUID.toString()));
         //get current xcode version
         String currentXcodeVersion = Utils.getCurrentXcodeVersion(workDirectory);
 
