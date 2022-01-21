@@ -206,6 +206,13 @@ public class ProjectBuilder {
     }
 
     private static void zipDSYMs(String appName, File targetWorkDirectory) throws IOSException {
+        // check if dsyms exist
+        String dSYMsPath = targetWorkDirectory + "/" + appName + "." + Utils.PLUGIN_SUFFIX.XCARCHIVE + "/" + Utils.PLUGIN_SUFFIX.DSYMS;
+        File directory = new File(dSYMsPath);
+        if (!directory.exists()) {
+            return;
+        }
+
         // Zip Frameworks
         copyDSYMs(appName, targetWorkDirectory);
 
