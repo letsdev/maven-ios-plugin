@@ -282,10 +282,8 @@ public class Utils {
         String result = getProjectVersion(mavenProject, properties);
 
         //remove -SNAPSHOT in version number in order to prevent malformed version numbers in framework builds
-        if (Utils.isiOSFramework(mavenProject, properties) || Utils.isMacOSFramework(properties)
-                || Utils.isTestflightBuild(properties) || Utils.isAppStoreBuild(properties)) {
-            result = result.replace(Utils.BUNDLE_VERSION_SNAPSHOT_ID, "");
-        }
+        //FK 02.12.: in the meantime -SNAPSHOT version suffixes are also invalid for normal xcodebuilds, so we remove -SNAPSHOT in every case
+        result = result.replace(Utils.BUNDLE_VERSION_SNAPSHOT_ID, "");
 
         return result;
     }
