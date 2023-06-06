@@ -27,11 +27,12 @@
                             <projectName>ios-maven-example-project</projectName>
                             <scheme>ios-maven-example-project</scheme>
                             <infoPlist>ios-maven-example-project/Info.plist</infoPlist>
+                            <buildId>42</buildId>
                             <bundleIdentifier>de.letsdev.ios-maven-example-project</bundleIdentifier>
-                            <codeSignIdentity>iPhone Distribution: let&apos;s dev GmbH &amp; Co. KG</codeSignIdentity>
-                            <keychainPath>${user.home}/Library/Keychains/ld-enterprise.keychain</keychainPath>
-                            <keychainPassword>ld-enterprise</keychainPassword>
-                            <provisioningProfileName>ldentwildcarddistribution</provisioningProfileName>
+                            <codeSignIdentity>Apple Distribution: let&apos;s dev GmbH &amp; Co. KG (V5AQD7L98Z)</codeSignIdentity>
+                            <keychainPath>${user.home}/Library/Keychains/ld-appstore.keychain</keychainPath>
+                            <keychainPassword>ld-appstore</keychainPassword>
+                            <provisioningProfileName>Wildcard_Distribution_AdHoc</provisioningProfileName>
                             <infoPlistValues>
                                 <infoPlistValue>
                                     <key>Somekey</key>

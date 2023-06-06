@@ -45,7 +45,7 @@ public class ProjectBuilder {
      */
     public static void build(final Map<String, String> properties, MavenProject mavenProject,
                              final List<FileReplacement> fileReplacements, final List<InfoPlistValue> infoPlistValues,
-                             final List<String> xcodeBuildParameters, final XcodeExportOptions xcodeExportOptions,
+                             List<String> xcodeBuildParameters, final XcodeExportOptions xcodeExportOptions,
                              final StringReplacementConfig stringReplacements,
                              List<String> targetDependencies) throws IOSException, IOException {
         // Make sure the source directory exists
@@ -66,12 +66,16 @@ public class ProjectBuilder {
             }
 
             File targetDirectory = Utils.getTargetDirectory(mavenProject);
-            String projectVersion = updateXcodeProjectInfoPlist(properties, mavenProject, projectName,
+            updateXcodeProjectInfoPlist(properties, mavenProject, projectName,
                     projectDirectory);
 
             if (infoPlistValues != null && infoPlistValues.size() > 0) {
                 addInfoPlistEntries(properties, infoPlistValues, projectDirectory, projectName);
             }
+
+            String projectVersion = Utils.getAdjustedVersion(mavenProject, properties);
+            String buildNumber = getBuildNumber(mavenProject, properties);
+            updateProjectVersions(properties, mavenProject, projectVersion, buildNumber, projectDirectory, xcodeBuildParameters);
 
             //update entitlements file
             prepareEntitlementsFile(properties, projectDirectory);
@@ -378,22 +382,31 @@ public class ProjectBuilder {
         }
     }
 
-    private static String updateXcodeProjectInfoPlist(Map<String, String> properties, MavenProject mavenProject,
-                                                      String projectName, File workDirectory) throws IOSException {
-        // Run agvtool to stamp marketing version
-        String projectVersion = Utils.getAdjustedVersion(mavenProject, properties);
+    private static void updateProjectVersions(Map<String, String> properties, MavenProject mavenProject,
+                                                    String projectVersion, String buildNumber, File workDirectory, List<String> xcodeBuildParameters) throws IOSException {
 
-        // Run agvtool to stamp version
+        // Run agvtool to stamp marketing version
         ProcessBuilder processBuilderNewMarketingVersion = new ProcessBuilder("agvtool", "new-marketing-version",
                 projectVersion);
         processBuilderNewMarketingVersion.directory(workDirectory);
         CommandHelper.performCommand(processBuilderNewMarketingVersion);
 
         // Run agvtool to stamp build number
-        String buildNumber = getBuildNumber(mavenProject, properties);
         ProcessBuilder processBuilderNewVersion = new ProcessBuilder("agvtool", "new-version", "-all", buildNumber);
         processBuilderNewVersion.directory(workDirectory);
         CommandHelper.performCommand(processBuilderNewVersion);
+
+        if (!xcodeBuildParameters.contains(Utils.XCODE_BUILD_PARAM_MARKETING_VERSION)) {
+            xcodeBuildParameters.add(Utils.XCODE_BUILD_PARAM_MARKETING_VERSION + "=" + projectVersion);
+        }
+
+        if (!xcodeBuildParameters.contains(Utils.XCODE_BUILD_PARAM_PROJECT_VERSION)) {
+            xcodeBuildParameters.add(Utils.XCODE_BUILD_PARAM_PROJECT_VERSION + "=" + buildNumber);
+        }
+    }
+
+    private static void updateXcodeProjectInfoPlist(Map<String, String> properties, MavenProject mavenProject,
+                                                      String projectName, File workDirectory) throws IOSException {
 
         // Run PlistBuddy to stamp build if a build id is specified
         if (properties.get(Utils.PLUGIN_PROPERTIES.BUILD_ID.toString()) != null) {
@@ -422,7 +435,6 @@ public class ProjectBuilder {
                     properties.get(Utils.PLUGIN_PROPERTIES.DISPLAY_NAME.toString()), workDirectory, projectName,
                     properties);
         }
-        return projectVersion;
     }
 
     private static void cleanXcodeProject(Map<String, String> properties, File workDirectory,

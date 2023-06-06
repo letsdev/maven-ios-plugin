@@ -37,6 +37,10 @@ public class Utils {
     private static String EXPORT_PRODUCT_PATH_FRAMEWORK = EXPORT_PRODUCT_PATH_BASE + "/Frameworks";
     private static String EXPORT_PRODUCT_PATH_BUNDLE = EXPORT_PRODUCT_PATH_BASE + "/Bundles";
 
+    public static String XCODE_BUILD_PARAM_MARKETING_VERSION = "MARKETING_VERSION";
+
+    public static String XCODE_BUILD_PARAM_PROJECT_VERSION = "CURRENT_PROJECT_VERSION";
+
     public enum PLUGIN_PROPERTIES {
 
         APP_NAME("appName"),
