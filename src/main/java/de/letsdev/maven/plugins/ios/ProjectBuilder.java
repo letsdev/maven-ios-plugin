@@ -761,11 +761,6 @@ public class ProjectBuilder {
                     Utils.PLUGIN_PROPERTIES.BUNDLE_IDENTIFIER.toString()) + "\"");
         }
 
-        if ((Utils.isMacOSFramework(properties) || Utils.isiOSFramework(mavenProject, properties))
-                && properties.containsKey(Utils.PLUGIN_PROPERTIES.APP_NAME.toString())) {
-            buildParameters.add("PRODUCT_NAME=\"" + properties.get(Utils.PLUGIN_PROPERTIES.APP_NAME.toString()) + "\"");
-        }
-
         String target = null;
         if (properties.containsKey(Utils.PLUGIN_PROPERTIES.TARGET.toString())) {
             target = properties.get(Utils.PLUGIN_PROPERTIES.TARGET.toString());

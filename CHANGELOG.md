@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [UNRELEASED]
+## [1.23.3] - 2024-03-04
+### Removed
+- do not set PRODUCT_NAME for framework builds anymore (due to incompatibilites in SPM projects)
+
 ## [1.23.2] - 2023-06-06
 ### Added
 - handling for setting MARKETING_VERSION and CURRENT_PROJECT_VERSION xcode build parameters
