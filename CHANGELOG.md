@@ -5,7 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [UNRELEASED]
-## [1.23.3] - 2024-03-04
+## [1.23.5] - 2024-06-07
+### Removed
+- extraction of simulator architectures from project dependencies
+
+## [1.23.4] - 2024-03-04
 ### Removed
 - do not set PRODUCT_NAME for framework builds anymore (due to incompatibilites in SPM projects)
 
